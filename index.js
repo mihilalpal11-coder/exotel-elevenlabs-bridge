@@ -14,8 +14,13 @@ const AGENT_ID = process.env.ELEVENLABS_AGENT_ID || "agent_4701kt44menpf2xav2d18
 
 // 1. Standard HTTP Health Check (Keeps Cloud Run Happy)
 app.get("/", (req, res) => {
-  res.send("Exotel ElevenLabs Bridge Running");
-});
+     // This dynamically creates the wss:// string Exotel needs to see
+     const webSocketEndpoint = `wss://${req.get('host')}/`;
+     console.log(`Sending WebSocket routing target to Exotel: ${webSocketEndpoint}`);
+     
+     // Return the clean wss:// endpoint string with a 200 OK status
+     res.status(200).send(webSocketEndpoint);
+   });
 
 // 2. WebSocket Stream Tunneler
 wss.on("connection", (exotelWs, request) => {
