@@ -12,13 +12,15 @@ const PORT = process.env.PORT || 8080;
 // Dynamic ElevenLabs Agent ID config passed via environment variable
 const AGENT_ID = process.env.ELEVENLABS_AGENT_ID || "agent_4701kt44menpf2xav2d18ahb93c1";
 
-// 1. Standard HTTP Handshake - Send Exotel the required JSON object configuration
+// 1. Standard HTTP Handshake - Send Exotel a clean, structured JSON target
 app.get("/", (req, res) => {
-  const webSocketEndpoint = `wss://${req.get('host')}/`;
-  console.log(`Sending structured JSON routing target to Exotel: ${webSocketEndpoint}`);
+  // Explicitly add the /connect path to prevent empty domain drops
+  const webSocketEndpoint = `wss://${req.get('host')}/connect`;
+  console.log(`Sending production JSON routing target: ${webSocketEndpoint}`);
   
-  // Exotel's Voicebot applet reads the "url" key from this specific JSON body payload
+  // Return a comprehensive JSON object mapping to guarantee parser compatibility
   res.status(200).json({
+    status: "success",
     url: webSocketEndpoint
   });
 });
