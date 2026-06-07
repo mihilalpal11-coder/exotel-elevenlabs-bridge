@@ -28,7 +28,7 @@ wss.on("connection", (exotelWs, request) => {
   console.log("🚀 Exotel connected to Cloud Run WebSocket bridge.");
 
   // Route directly to ElevenLabs' regional infrastructure for India
-  const elevenLabsUrl = `wss://api.in.residency.elevenlabs.io/v1/convai/conversation/exotel?agent_id=${AGENT_ID}`;
+ const elevenLabsUrl = `wss://api.elevenlabs.io/v1/convai/conversation/exotel?agent_id=${AGENT_ID}`;
   const elevenLabsWs = new WebSocket(elevenLabsUrl);
 
   // Pipe incoming audio data from Exotel straight to ElevenLabs
